@@ -1,8 +1,20 @@
-## Welcome to GitHub Pages
-
+# Event Driven Banking with UP Bank
 You can use the [editor on GitHub](https://github.com/codecowboydotio/event-driven-banking/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## What is this?
+Recetly, a neo bank that I am a member of released a new API. 
+This API has the usual banking related functions, get your account details, view your transactions and so on.
+
+The developer docs are available here: https://developer.up.com.au
+
+What caught my eye though was this: https://developer.up.com.au/#get_webhooks
+
+## A lightbulb moment
+
+When I read about arbitrary webhooks for my bank account, a lightbulb went off in my head.
+I can do **anything** with an arbitrary webhook.
+
+It occurred to me that by sending data in a real time fashion to an **arbitrary** **webhook** that what the UP team had done was create a situation where I could start to use **real time event driven banking**.
 
 ### Markdown
 
