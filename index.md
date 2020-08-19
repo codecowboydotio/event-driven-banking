@@ -14,7 +14,22 @@ What caught my eye though was this: https://developer.up.com.au/#get_webhooks
 When I read about arbitrary webhooks for my bank account, a lightbulb went off in my head.
 I can do **anything** with an arbitrary webhook.
 
-It occurred to me that by sending data in a real time fashion to an **arbitrary** **webhook** that what the UP team had done was create a situation where I could start to use **real time event driven banking**.
+It occurred to me that by sending data in a real time fashion to an **arbitrary** **webhook** that what the UP team had done was create a situation where I could start to use **real time event driven banking**. The possibilities immediately struck me as being endless. 
+
+## Enter Kafka
+
+If we are going to talk about event driven architecture, then the software for me is definitely Kafka (yes there are others, but I'm comfortable with Kafka). 
+I began to wonder if my bank would send an event to my webhook, and my webhook could act as a Kafka producer and post an event for me. I could then have one (or more) consumers come along and pick up these events and do something else with them. 
+
+I could: 
+
+- Post a picture to twitter
+- Pull data from my event bus and push into accounting software
+- Calulate my real time financial position and reconcile as events come in (no overnight processing).
+
+...the possibilities are really only limited by my imagination.
+
+
 
 ### Markdown
 
