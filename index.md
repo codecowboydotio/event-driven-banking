@@ -30,6 +30,17 @@ I could:
 
 
 ## The end to end architecture
+The architecture is very simple. It is completely event driven, and everything occurs in real time. 
+Consider the following:
+- I transfer money from my account to someone else
+- This creates a new transactions
+- This transaction triggers my webhook that I have configured against my bank account
+- Webhook sends transaction data to my listener
+- My listener authenticates the message
+- My listener pushes portions of the incoming message to Kafka
+- I have a consumer configured to listen to the same topic I'm pushing events to
+- My consumer processes the event and does **something** with it
+
 ![End to End Architecture](/Architecture.PNG)
 
 
