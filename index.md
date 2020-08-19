@@ -1,5 +1,4 @@
 # Event Driven Banking with UP Bank
-You can use the [editor on GitHub](https://github.com/codecowboydotio/event-driven-banking/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
 ## What is this?
 Recetly, a neo bank that I am a member of released a new API. 
@@ -28,6 +27,10 @@ I could:
 - Calulate my real time financial position and reconcile as events come in (no overnight processing).
 
 ...the possibilities are really only limited by my imagination.
+
+
+
+
 
 
 
