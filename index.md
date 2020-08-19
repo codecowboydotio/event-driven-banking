@@ -30,7 +30,7 @@ I could:
 
 
 ## The end to end architecture
-![End to End Architecture](/Architecture.png)
+![End to End Architecture](/Architecture.PNG)
 
 
 
