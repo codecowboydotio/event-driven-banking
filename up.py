@@ -2,6 +2,10 @@ from flask import Flask, request, Response  #import main Flask class and request
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
 import json
+import hmac
+import hashlib
+import base64
+import codecs
 
 app = Flask(__name__) #create the Flask app
 app.config.from_object('config.ProductionConfig')
@@ -13,12 +17,19 @@ def processrequest():
     app_debug = app.config['APP_DEBUG']
     debug_header = app.config['DEBUG_HEADER']
     debug_footer = app.config['DEBUG_FOOTER']
+    expected_user_agent = app.config['USER_AGENT']
+    key = app.config['KEY'].encode("ascii") #ascii encoding returns a byte object 
     rawdata = request.get_data()
     data = request.get_json()
-    if auth_header == app.config['KEY']:
+
+    h = hmac.new(key, rawdata, hashlib.sha256 ) # byte object in should compute the same hash as the header
+    computed_hmac = h.hexdigest()
+
+    if auth_header == computed_hmac:
       if app_debug.lower() == 'true':
         print(debug_header)
         print('Auth Header: ', auth_header)
+        print('Computed HMAC: ', computed_hmac)
         print(debug_footer)
       eventType = (data['data']['attributes']['eventType'])
       eventCreated = (data['data']['attributes']['createdAt'])
@@ -49,8 +60,13 @@ def processrequest():
       return Response("{'Data':'all good'}", status=200, mimetype='application/json')
     else:
       print ('HEader doesn\'t match')
+      print(debug_header)
+      print('Auth Header: ', auth_header)
+      print('Computed HMAC: ', computed_hmac)
+      print(debug_footer)
       return Response("{'Data':'authentication does not match'}", status=403, mimetype='application/json')
-  except:
+  except Exception as exc:
+    print(exc)
     return Response("{'Data':'authentication was not present'}", status=403, mimetype='application/json')
 
 if __name__ == '__main__':
