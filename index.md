@@ -55,7 +55,7 @@ Once you've done both of these things, then you can start to configure your acco
 There are a few calls that you need to perform in order to configure a webhook within your bank account.
 
 ```
-curl https://api.up.com.au/api/v1/webhooks \
+#curl https://api.up.com.au/api/v1/webhooks \
   -XPOST \
   -H 'Authorization: your-token' \
   -H 'Content-Type: application/json' \
@@ -69,11 +69,38 @@ curl https://api.up.com.au/api/v1/webhooks \
   }'
 ```
 
+### Data that is returned
+The curl call above will return a blob of data that contains a secret key. 
+The secret key is important to save away (and not share) - it will be used later to authenticate incoming requests.
 
+```
+{
+    "data": {
+        "type": "webhooks",
+        "id": "XXX-a697-290df70f8298",
+        "attributes": {
+            "url": "http://x.x.x.x/",
+            "description": "Test webhook",
+            "secretKey": "TIGC3OcKKJOBQ7jClQQ5oLCiDlYPFYsKgKTr",
+            "createdAt": "2020-08-19T20:30:17+10:00"
+        },
+        "relationships": {
+            "logs": {
+                "links": {
+                    "related": "https://api.up.com.au/api/v1/webhooks/XXX-a697-290df70f8298/logs"
+                }
+            }
+        },
+        "links": {
+            "self": "https://api.up.com.au/api/v1/webhooks/XXX-a697-290df70f8298"
+        }
+    }
+}
+```
 
-### Jekyll Themes
+...it's that simple - **you have created a webhook for your bank account.**
+New transactions in your bank account will trigger events to be sent to your webhook.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/codecowboydotio/event-driven-banking/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
 ### Support or Contact
 
