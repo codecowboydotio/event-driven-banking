@@ -55,9 +55,9 @@ Once you've done both of these things, then you can start to configure your acco
 There are a few calls that you need to perform in order to configure a webhook within your bank account.
 
 The main things to configure as part of the create call are:
-    - Authorization header (this is your API key)
-    - url (this is address and uri of your code)
-    - description (this is the description of your webhook)
+- Authorization header (this is your API key)
+- url (this is address and uri of your code)
+- description (this is the description of your webhook)
 
 ```
 #curl https://api.up.com.au/api/v1/webhooks \
@@ -106,6 +106,4 @@ The **secret key** is important to save away (and not share) - it will be used l
 ...it's that simple - **you have created a webhook for your bank account.**
 New transactions in your bank account will trigger events to be sent to your webhook.
 
-
-### Support or Contact
 
