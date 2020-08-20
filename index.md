@@ -106,4 +106,11 @@ The **secret key** is important to save away (and not share) - it will be used l
 ...it's that simple - **you have created a webhook for your bank account.**
 New transactions in your bank account will trigger events to be sent to your webhook.
 
+## The Listener and Kafka Producer
+Now that I have my bank account with a webhook, it will be sending transaction data to my endpoint. 
+I need to have something to listen for incoming requests, and handle these incoming requests. 
+In my case, I have decided to do two things, handle incoming requests, parse them for the transaction URL, and pass that URL to a Kafka topic.
+It looks like the diagram below.
 
+
+![Listener and Producer](/ListenerProducer.png)
