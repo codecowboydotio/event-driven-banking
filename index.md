@@ -1,4 +1,4 @@
-# Event Driven Banking with UP Bank
+# Experiments with Event Driven Banking with UP Bank
 
 ## What is this?
 Recetly, a neo bank that I am a member of released a new API. 
@@ -116,6 +116,14 @@ It looks like the diagram below.
 ![Listener and Producer](/ListenerProducer.png)
 
 ## The Code
+The code is relatively simple. I chose to write this in python for a few reasons.
+1) I need to brush up on my Python.
+2) There are a number of open source application servers for python applications (wsgi and so on).
+3) Python has good support for Kafka.
+4) Python is simple enough and ubiquitous enough for most people to understand.
+4a) Even a hack like me can do it :)
+
+![Github Repository of code](http://github.com/codecowboydotio/event-driven-banking/)
 
 ```
 from flask import Flask, request, Response  #import main Flask class and request object
