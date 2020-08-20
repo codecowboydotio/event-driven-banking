@@ -4,9 +4,9 @@
 Recetly, a neo bank that I am a member of released a new API. 
 This API has the usual banking related functions, get your account details, view your transactions and so on.
 
-The developer docs are available here: https://developer.up.com.au
+The developer docs are available here: [https://developer.up.com.au](https://developer.up.com.au)
 
-What caught my eye though was this: https://developer.up.com.au/#get_webhooks
+What caught my eye though was this: [https://developer.up.com.au/#webhooks](https://developer.up.com.au/#webhooks)
 
 ## A lightbulb moment
 
