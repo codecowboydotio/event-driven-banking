@@ -123,7 +123,7 @@ The code is relatively simple. I chose to write this in python for a few reasons
 4) Python is simple enough and ubiquitous enough for most people to understand.
 4a) Even a hack like me can do it :)
 
-![Github Repository of code](http://github.com/codecowboydotio/event-driven-banking/)
+[Github Repository of code](http://github.com/codecowboydotio/event-driven-banking/)
 
 ```
 from flask import Flask, request, Response  #import main Flask class and request object
