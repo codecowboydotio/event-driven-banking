@@ -45,7 +45,29 @@ Consider the following:
 
 
 ## How do I get started?
-There are a few things you need to do before you 
+There are a few things you need to do before you can get started. 
+- Get a bank account with UP
+- Get an API key for your account
+
+Once you've done both of these things, then you can start to configure your account.
+
+### Create a webhook
+There are a few calls that you need to perform in order to configure a webhook within your bank account.
+
+```
+curl https://api.up.com.au/api/v1/webhooks \
+  -XPOST \
+  -H 'Authorization: your-token' \
+  -H 'Content-Type: application/json' \
+  --data-binary '{
+    "data": {
+      "attributes": {
+        "url": "http://mywebhook.com/webhook",
+        "description": "Example webhook"
+      }
+    }
+  }'
+```
 
 
 
