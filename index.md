@@ -130,6 +130,43 @@ The code is fairly short, and if you remove all of my error handling it's extrem
 I'll discuss the major components in detail below.
 
 ### Python App Config
+I used the python app.config method for creating a configuration file.
+This way, I can have different environments for testing and production, and use the same configuration file. Doing this makes my life easier, and I'm for anything that makes my life easier.
+
+I am using the flask, class based inheritance approach to my configuration file. This allows me to define classes of different configurations in my **config.py** file and reference these within my codebase.
+
+```
+class Config(object):
+  HEADER = 'X-Up-Authenticity-Signature'
+  DEBUG_HEADER = '========DEBUG=BEGIN========='
+  DEBUG_FOOTER = '========DEBUG=END==========='
+
+class TestingConfig(Config):
+  HEADER = 'my-header'
+  KEY = 'put-your-secret-key-here''
+  KTOPIC = 'my-kafka-topic'
+  KHOST = '10.1.1.154:9092'
+  USER_AGENT = 'Up Webhook Dispatcher'
+  APP_DEBUG = 'true'
+
+class ProductionConfig(Config):
+  HEADER = 'X-Up-Authenticity-Signature'
+  KEY = 'put-your-secret-key-here''
+  KTOPIC = 'my-kafka-topic'
+  KHOST = 'kafka-host:9092'
+  USER_AGENT = 'Up Webhook Dispatcher'
+  APP_DEBUG = 'false'
+  DEBUG_HEADER = '========DEBUG=BEGIN========='
+  DEBUG_FOOTER = '========DEBUG=END==========='
+```
+
+To reference a specific configuration, I only need to do the following within my code.
+
+```
+app.config.from_object('config.ProductionConfig')
+```
+
+This will load the ProductionConfig class and associated variables into my codebase. If I want to reference another set of variables, I can reference TestingConfig instead.
 
 
 ### Headers
