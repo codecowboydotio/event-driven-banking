@@ -239,7 +239,7 @@ The Kafka producer is has two main pieces of code. The first has nothing to do w
       transactionUrl = (data['data']['relationships']['transaction']['links']['related'])
 ```      
 
-The actual Kafka producer code is below. The code pulls the Kafka host and topic from the **config.py** file. In the example below, I am publishing the transaction URL (taken from the POST request the bank sends me) to Kafka. I have a Kafka consumer subscribed to the same topic that uses the URL to get the actual transaction details.
+The actual Kafka producer code is below. The code pulls the Kafka host and topic from the **config.py** file. In the example below, I am publishing the transaction URL (taken from the POST request the bank sends) to Kafka. I have a Kafka consumer subscribed to the same topic that uses the URL to get the actual transaction details.
 
 ```
       khost = app.config['KHOST']
@@ -257,3 +257,6 @@ The actual Kafka producer code is below. The code pulls the Kafka host and topic
 ```
 
 ### Return data
+
+### Consumer
+
