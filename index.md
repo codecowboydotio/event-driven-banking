@@ -257,6 +257,80 @@ The actual Kafka producer code is below. The code pulls the Kafka host and topic
 ```
 
 ### Return data
+The bank has an expectation that your webhook returns a 200 response within a certain timeframe.
+
+Essentially, I set my code to return valid response codes as opposed to returning a 200 all the time.
+I resisted the temptation to return an HTTP 418 response code.
+
+Below are some of the response codes that I have set for various things.
+
+```
+  return Response("{Data: 'Kafka Error'}", status=400, mimetype='application/json')
+  return Response("{'Data':'all good'}", status=200, mimetype='application/json')
+  return Response("{'Data':'authentication does not match'}", status=403, mimetype='application/json')
+  return Response("{'Data':'authentication was not present'}", status=403, mimetype='application/json')
+```
+
+A good example is below. I've removed the actual code portions to focus just on the responses and the reasons various responses get returned.
+
+```
+    if auth_header == computed_hmac:
+      { If the header is good, then do a bunch of stuff } 
+      try:
+        { set up Kafka producer }
+      except Exception as e: 
+         { exception here means Kafka set up failed }
+        return Response("{Data: 'Kafka Error'}", status=400, mimetype='application/json')
+      { The following return is if the initial try is successful - did the kafka set up work? }
+      return Response("{'Data':'all good'}", status=200, mimetype='application/json')
+    else:
+      { If the auth header doesn't match then return a 403 response }
+      return Response("{'Data':'authentication does not match'}", status=403, mimetype='application/json')
+```
 
 ### Consumer
+The consumer code is even easier than the producer. The consumer essentially attaches to the topic and grabs incoming messages. This isn't super bulletproof code at the moment. It reads messages from the beginning rather than using an offset and so on, but it does the job. 
 
+That aside, it's similar to the producer side in that it is a Kafka consumer, and posts to twitter. 
+
+
+
+```
+import twitter
+import requests
+from kafka import KafkaConsumer
+from kafka.errors import KafkaError
+
+
+consumer_key=''
+consumer_secret=''
+access_token_key=''
+access_token_secret=''
+kafka_topic= 'my-kafka-topic'
+kafka_host='[localhost:9092]'
+up_token = ''
+
+try:
+  consumer = KafkaConsumer(kafka_topic, group_id = 'group1',
+                           bootstrap_servers = kafka_host)
+  for message in consumer:
+    print("Topic Name=%s, Message=%s"%(message.topic, message.value))
+    url = message.value.decode('utf-8').strip('\"') # lazy hack 
+    print(url)
+    response = requests.get(url,
+                          headers={"Authorization": up_token}
+                          )
+    data = response.json()
+    value = (data['data']['attributes']['amount']['value'])
+    currency = (data['data']['attributes']['amount']['currencyCode'])
+    print(value, currency)
+    api = twitter.Api(consumer_key=consumer_key,
+                  consumer_secret=consumer_secret,
+                  access_token_key=access_token_key,
+                  access_token_secret=access_token_secret)
+    tweet = "Another something just happened in my @up_banking account. This message arrived via #Kafka, and tells me the value of my bank transation was {} {} #api #python #eventdrivenbanking".format(value, currency)
+    print(tweet)
+    status = api.PostUpdate(tweet)
+except Exception as e:
+  print(e)
+```
