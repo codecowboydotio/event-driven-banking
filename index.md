@@ -41,7 +41,7 @@ Consider the following:
 - I have a consumer configured to listen to the same topic I'm pushing events to
 - My consumer processes the event and does **something** with it
 
-![End to End Architecture](/Architecture.PNG)
+![End to End Architecture](/Architecture.JPG)
 
 
 ## How do I get started?
@@ -113,7 +113,7 @@ In my case, I have decided to do two things, handle incoming requests, parse the
 It looks like the diagram below.
 
 
-![Listener and Producer](/ListenerProducer.png)
+![Listener and Producer](/ListenerProducer.JPG)
 
 ## The Code
 The code is relatively simple. I chose to write this in python for a few reasons.
@@ -293,7 +293,9 @@ The consumer code is even easier than the producer. The consumer essentially att
 
 That aside, it's similar to the producer side in that it is a Kafka consumer, and posts to twitter. 
 
+![Consumer](/Consumer.JPG)
 
+The code is below:
 
 ```
 import twitter
