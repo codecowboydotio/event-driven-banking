@@ -24,7 +24,9 @@ I could:
 
 - Post a picture to twitter
 - Pull data from my event bus and push into accounting software
-- Calulate my real time financial position and reconcile as events come in (no overnight processing).
+- Calculate my real time financial position and reconcile as events come in (no overnight processing).
+- Run a "coin operated" service that only takes action when money is received into my account.
+- Begin to reconcile blockchain "smart contracts" with fiat currency in real time.
 
 ...the possibilities are really only limited by my imagination.
 
