@@ -336,3 +336,15 @@ try:
 except Exception as e:
   print(e)
 ```
+
+## What does all of this mean?
+
+While this has been an experiment, and I wrote some fairly shocking python code - it shows that event driven banking is a real thing.
+What's more, the methodology that I have used is scalable and flexible in that I can now write more consumers that listen to the same topic and process events in different ways. A twitter bot is just one example of something that I can do that isn't particularly useful.
+
+The code that I've laid down fiarly quickly is a framework that can be extended upon. 
+Using Kafka allows me to have a many to one relationship in a fan out fashion.
+
+Imagine if I decided to write a consumer that detected incoming transactions into my account, and chose to process those as a "coin operated" service. Let's say that even inbound transfer would "top up" a machine learning model and allow my model some processing time to learn. 
+
+This is really the power of event driven banking and what makes me excited by the possibilities of being able to react in real time to banking events.
